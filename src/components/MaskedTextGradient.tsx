@@ -13,14 +13,8 @@ function MaskedTextGradient({text}: Props) {
          <MaskedView
         style={styles.maskedView}
         maskElement={
-          <View style={styles.maskWrapper}>
-            <Text style={styles.mask}>{text}</Text>
-          </View>
+          <Text style={styles.mask}>{text}</Text>
         }>
-        {/* <Image
-          source={backgroundTexture}
-          style={styles.image}
-        /> */}
         <LinearGradient colors={['orange', 'purple']} start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={{flex: 1}}/>
       </MaskedView>
       </View>
@@ -31,14 +25,12 @@ export default MaskedTextGradient;
 
 const styles = StyleSheet.create({
    container: {
-     flex: .3,
+     flex: .2,
    },
    maskedView: {
      flex: 1,
-    //  flexDirection: 'row',
-    //  height: '10%'
-   },
-   maskWrapper: {
+     flexDirection: 'row',
+     height: '100%'
    },
    mask: {
      fontSize: 35,
