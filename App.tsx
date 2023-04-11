@@ -32,7 +32,7 @@ function App(): JSX.Element {
       <StatusBar backgroundColor={'#F9DDFF'} barStyle={'dark-content'}/>
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <LinearGradient colors={['#F9DDFF', '#FFD5F4', '#FFD0D6', '#FFD4AC']} style={styles.gradient}>
-          <Text style={styles.title}>Main screen</Text>
+          <Text style={styles.title}>POSTS LIST</Text>
           <View style={styles.inputBlock}>
             <TextInput style={styles.input} onChangeText={handleTextChange} value={text}></TextInput>
             <SearchIcon width={30} height={30} fill={'black'} style={styles.icon}/>
