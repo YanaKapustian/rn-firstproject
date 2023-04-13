@@ -1,11 +1,16 @@
 import React, { useCallback } from "react";
-import { Alert, Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 import { Navigation } from "react-native-navigation";
+import { showMessage } from "react-native-flash-message";
+import { MODAL_ID } from "./AddPostBtn";
 
 const SavePost = () => {
    const savePost = useCallback(() => {
-      Alert.alert("Post is saved")
-      Navigation.dismissModal('modal')
+      showMessage({
+         message: 'Post is saved',
+         type: 'success',
+      })
+      Navigation.dismissModal(MODAL_ID)
    }, [])
 
    return (

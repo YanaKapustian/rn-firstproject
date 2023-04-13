@@ -1,39 +1,62 @@
-import React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native';
 import PostItem from '../components/PostItem';
-import { ComponentProps, PostType } from '../types';
+import { ComponentProps, FetchedDataType } from '../types';
+import Config from 'react-native-config';
+import { PostType } from '../types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import FlashMessage from 'react-native-flash-message';
+import SplashScreen from 'react-native-splash-screen';
+import EncryptedStorage from 'react-native-encrypted-storage';
 import uuid from 'react-native-uuid';
 
 const PostList = (props: ComponentProps) => {
+   const [fetchedData, setFetchedData] = useState<FetchedDataType>()
+   const [posts, setPosts] = useState<PostType[]>([])
 
-   const posts: PostType[] = [
-      {
-         id: uuid.v4(),
-         title: "Post 1",
-         text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi iusto repellat qui consequatur totam unde fuga doloribus! Eum adipisci reiciendis ipsa pariatur quibusdam quod quos delectus necessitatibus repellat voluptas? Adipisci?",
-         image: 'https://cdn-prod.medicalnewstoday.com/content/images/articles/325/325466/man-walking-dog.jpg',
-      },
-      {
-         id: uuid.v4(),
-         title: "Post 2",
-         text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, ad?",
-         image: "https://images.unsplash.com/photo-1678827843845-d9d6d5b80f53?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-      },
-      {
-         id: uuid.v4(),
-         title: "Post 3",
-         text: "Lorem ipsum dolor sit amet consectetur.",
-         image: "https://images.unsplash.com/photo-1679944520044-3810b7c10daf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-      },
-   ]
+   useEffect(() => {
+      getData()
+   }, [])
+
+   const getData = useCallback(async() => {
+      try {
+         const jsonPosts = await AsyncStorage.getItem('posts')
+         if (jsonPosts !== null) setPosts(JSON.parse(jsonPosts))
+      } catch(e) {
+         console.log(e);
+      }
+      await fetch(Config.JSON_API_URL)
+      .then(response => response.json())
+      .then(data => setFetchedData(data))
+      .catch(e => console.log(e))
+      try {
+         EncryptedStorage.setItem('user-id', JSON.stringify(uuid.v4()))
+      } catch(e) {
+         console.log(e);
+      }
+
+      SplashScreen.hide()
+   }, [])
 
    return (
       <SafeAreaView style={{flex: 1}}>
          <ScrollView>
-            {posts.map(post => <PostItem key={post.id} post={post} componentId={props.componentId} />)}
+            {posts?.map(post => <PostItem key={post.id} post={post} componentId={props.componentId} />)}
+            <Text style={styles.text}>Fetched data using Config.JSON_API_URL: {fetchedData?.title}</Text>
          </ScrollView>
+         <FlashMessage style={styles.flashMessage} titleStyle={{fontSize: 18}} position="top" />
       </SafeAreaView>
    );
 }
+
+const styles = StyleSheet.create({
+   text: {
+      fontSize: 20,
+      padding: 10,
+   },
+   flashMessage: {
+      borderRadius: 5,
+   }
+})
  
 export default PostList;

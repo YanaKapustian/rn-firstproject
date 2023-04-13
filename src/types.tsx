@@ -22,3 +22,10 @@ export interface PostScreenType {
    text: string,
    image: string,
 }
+
+export interface FetchedDataType {
+   id: string;
+   userId: string;
+   body: string;
+   title: string;
+}
