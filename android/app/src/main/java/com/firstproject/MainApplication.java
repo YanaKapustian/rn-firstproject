@@ -10,6 +10,7 @@ import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import com.lugg.RNCConfig.RNCConfigPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.rnfs.RNFSPackage;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class MainApplication extends NavigationApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           new RNCConfigPackage();
           new SplashScreenReactPackage();
+          // new MainReactPackage();
+          new RNFSPackage();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           return packages;

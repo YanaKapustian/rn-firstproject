@@ -1,14 +1,20 @@
-import React, { useCallback } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, Pressable } from 'react-native'
+import React, { useCallback, useMemo } from 'react';
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import { Navigation } from 'react-native-navigation';
 import { PostProps } from '../types';
 
 const PostItem = ({post, componentId}: PostProps) => {
    const {title, text, image} = post
-   const {width} = Dimensions.get('window')
 
-   let shortened = text.slice(0, 90)
-   if (text.length > 90) shortened += '...'
+   const shortened = useMemo(() => {
+      if (text.length > 90) {
+         let short = text.slice(0, 90)
+         short += '...'
+         return short
+      } else {
+         return text
+      }
+   }, [text])
 
    const viewPost = useCallback(() => {
       Navigation.push(componentId, {
@@ -32,9 +38,9 @@ const PostItem = ({post, componentId}: PostProps) => {
    return (
       <Pressable onPress={viewPost} style={styles.container}>
          <Image source={{uri: image }} style={styles.img} />
-         <View>
+         <View style={styles.textContainer}>
             <Text style={styles.title}>{title}</Text>
-            <Text style={{...styles.text, width: width * 0.65}}>{shortened}</Text>
+            <Text style={{...styles.text}}>{shortened}</Text>
          </View>
       </Pressable>
    );
@@ -42,7 +48,7 @@ const PostItem = ({post, componentId}: PostProps) => {
 
 const styles = StyleSheet.create({
    container: {
-      flex: 1,
+      width: '100%',
       paddingHorizontal: 10,
       marginTop: 10,
       padding: 10,
@@ -50,21 +56,23 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'flex-start',
-      minHeight: 115,
    },
    img: {
       width: '30%',
       resizeMode: 'cover',
+      aspectRatio: 1,
       borderRadius: 5,
       marginRight: 10,
+   },
+   textContainer: {
+      width: '100%'
    },
    title: {
       fontSize: 25,
    },
    text: {
       fontSize: 18,
-      flexWrap: 'wrap'
+      width: '70%',
    }
 })
  

@@ -5,6 +5,8 @@ import SavePost from "./src/components/SavePost";
 import AddPost from "./src/screens/AddPost";
 import PostList from "./src/screens/PostList";
 import PostScreen from "./src/screens/PostScreen";
+import App from "./App";
+import CameraScreen from "./src/screens/CameraScreen";
 
 Navigation.registerComponent('PostList', () => PostList);
 Navigation.registerComponent('PostScreen', () => PostScreen);
@@ -12,6 +14,8 @@ Navigation.registerComponent('AddPostBtn', () => AddPostBtn)
 Navigation.registerComponent('DismissModal', () => DismissModal)
 Navigation.registerComponent('SavePost', () => SavePost)
 Navigation.registerComponent('AddPost', () => AddPost)
+Navigation.registerComponent('CameraScreen', () => CameraScreen)
+Navigation.registerComponent('App', () => App)
 
 Navigation.events().registerAppLaunchedListener(() => {
    Navigation.setRoot({

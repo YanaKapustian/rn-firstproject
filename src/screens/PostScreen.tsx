@@ -3,8 +3,8 @@ import { PostScreenType } from "../types";
 
 const PostScreen = ({text, image}: PostScreenType) => {
    return (
-      <SafeAreaView>
-         <ScrollView style={styles.container}>
+      <SafeAreaView style={{flex: 1}}>
+         <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}}>
             <Text style={styles.text}>{text}</Text>
             <Image source={{uri: image}} style={styles.img}/>
          </ScrollView>

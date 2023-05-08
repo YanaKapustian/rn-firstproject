@@ -4,14 +4,14 @@ export interface ComponentProps {
 }
 
 export interface PostType {
-   id: string | number[],
+   id: string,
    title: string,
    text: string,
    image: string
 }
 
 export interface PostProps {
-   key: string | number[],
+   key: string,
    post: PostType,
    componentId: string,
 }
